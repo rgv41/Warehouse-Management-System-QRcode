@@ -1,65 +1,127 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import Link from 'next/link';
+
+// Daftar modul dengan ikon eksplisit (aman untuk SSR + hydration)
+const modules = [
+  {
+    title: 'Goods Received',
+    icon: '📦',
+    desc: 'Terima barang & generate QR label',
+    href: '/goods-received',
+    bg: 'bg-gray-50',
+    border: 'border-gray-300',
+    hover: 'hover:shadow-md hover:border-gray-400',
+    iconBg: 'bg-gray-100',
+    iconColor: 'text-gray-700',
+  },
+  {
+    title: 'Putting',
+    icon: '📍',
+    desc: 'Simpan barang ke rak dengan scan QR',
+    href: '/putting',
+    bg: 'bg-blue-50',
+    border: 'border-blue-300',
+    hover: 'hover:shadow-md hover:border-blue-400',
+    iconBg: 'bg-blue-100',
+    iconColor: 'text-blue-700',
+  },
+  {
+    title: 'Picking',
+    icon: '🛒',
+    desc: 'Ambil barang untuk produksi',
+    href: '/picking',
+    bg: 'bg-indigo-50',
+    border: 'border-indigo-300',
+    hover: 'hover:shadow-md hover:border-indigo-400',
+    iconBg: 'bg-indigo-100',
+    iconColor: 'text-indigo-700',
+  },
+  {
+    title: 'Goods Issue',
+    icon: '📤',
+    desc: 'Keluar barang dari gudang',
+    href: '/goods-issue',
+    bg: 'bg-green-50',
+    border: 'border-green-300',
+    hover: 'hover:shadow-md hover:border-green-400',
+    iconBg: 'bg-green-100',
+    iconColor: 'text-green-700',
+  },
+  {
+    title: 'Permintaan Produksi',
+    icon: '🏭',
+    desc: 'Ajukan permintaan via form web',
+    href: '/request',
+    bg: 'bg-purple-50',
+    border: 'border-purple-300',
+    hover: 'hover:shadow-md hover:border-purple-400',
+    iconBg: 'bg-purple-100',
+    iconColor: 'text-purple-700',
+  },
+  {
+    title: 'Dashboard',
+    icon: '📊',
+    desc: 'Lihat histori QR & status stok',
+    href: '/dashboard',
+    bg: 'bg-slate-50',
+    border: 'border-slate-300',
+    hover: 'hover:shadow-md hover:border-slate-400',
+    iconBg: 'bg-slate-100',
+    iconColor: 'text-slate-700',
+  },
+  {
+    title: 'QR Rak Penyimpanan',
+    icon: '🏷️',
+    desc: 'Generate QR code untuk lokasi rak',
+    href: '/storage-qr',
+    bg: 'bg-teal-50',
+    border: 'border-teal-300',
+    hover: 'hover:shadow-md hover:border-teal-400',
+    iconBg: 'bg-teal-100',
+    iconColor: 'text-teal-700',
+  },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 sm:p-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-10 pt-6">
+          <h1 className="text-3xl font-bold text-gray-900">
+            Sistem Manajemen Gudang Berbasis QR Code
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
+            Simulasi alur: Goods Received → Putting → Picking → Goods Issue
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Grid Modul */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {modules.map((mod, i) => (
+            <Link key={i} href={mod.href} className="block">
+              <div
+                className={`${mod.bg} ${mod.border} ${mod.hover} rounded-2xl p-6 border transition-all duration-200 h-full flex flex-col`}
+              >
+                <div className={`w-12 h-12 ${mod.iconBg} ${mod.iconColor} rounded-xl flex items-center justify-center mb-4 flex-shrink-0`}>
+                  {mod.icon}
+                </div>
+                <h3 className="font-bold text-lg text-gray-900 mb-2">{mod.title}</h3>
+                <p className="text-gray-600 text-sm flex-grow">{mod.desc}</p>
+                <span className="mt-3 inline-block text-sm font-medium text-indigo-600">
+                  Buka Modul →
+                </span>
+              </div>
+            </Link>
+          ))}
         </div>
-      </main>
+
+        {/* Footer Note */}
+        <div className="mt-12 text-center text-sm text-gray-500 pb-8">
+          <p>Sistem ini hanya untuk simulasi. Tidak ada koneksi ke printer fisik.</p>
+        </div>
+      </div>
     </div>
   );
 }
