@@ -17,7 +17,7 @@ export async function POST(request) {
     const instructionNumber = `INSTR-${Date.now().toString().slice(-8)}`;
 
     // Buat header
-    const header = await prisma.tBL_REQUEST_PRODUKSI.create({
+    const header = await prisma.tBL_TS_REQUEST_PRODUKSI.create({
        data : {
         REQUEST_NO: requestNo,
         REQUEST_DATE: new Date(),
@@ -29,7 +29,7 @@ export async function POST(request) {
     });
 
     // Buat detail
-    await prisma.tBL_REQUEST_DETAIL.createMany({
+    await prisma.tBL_TS_REQUEST_DETAIL.createMany({
       data: items.map(item => ({
         REQUEST_NO: requestNo,
         MATERIALCODE: item.materialCode,

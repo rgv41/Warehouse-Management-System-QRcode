@@ -30,7 +30,7 @@ export async function POST(request) {
       const seq = await getNextSequence(prisma, materialCode, today);
       const qrCode = `${generateQRCode(materialCode, today)}_${seq}`;
 
-      const created = await prisma.tBL_QR_LABEL.create({
+      const created = await prisma.tBL_TS_QR_LABEL.create({
         data: {
           QR_CODE: qrCode,
           MATERIALCODE: materialCode,

@@ -19,9 +19,9 @@ export async function POST(request) {
     }
 
     // Cari semua picking berdasarkan instruction number
-    const pickings = await prisma.tBL_PICKING.findMany({
+    const pickings = await prisma.tBL_TS_PICKING.findMany({
       where: { INSTRUCTION_NUMBER: instructionNumber },
-      include: { TBL_QR_LABEL: true },
+      include: { TBL_TS_QR_LABEL: true },
     });
 
     if (pickings.length === 0) {
@@ -32,7 +32,7 @@ export async function POST(request) {
     const issueNo = `GI-${new Date().toISOString().replace(/[-:T.]/g, '').slice(0, 12)}`;
 
     // Buat Goods Issue Header
-    const goodsIssue = await prisma.tBL_GOODS_ISSUE.create({
+    const goodsIssue = await prisma.tBL_TS_GOODS_ISSUE.create({
        data: {
         ISSUE_NO: issueNo,
         ISSUE_DATE: new Date(),
@@ -44,7 +44,7 @@ export async function POST(request) {
     });
 
     // Opsional: update status picking atau QR label
-    await prisma.tBL_PICKING.updateMany({
+    await prisma.tBL_TS_PICKING.updateMany({
       where: { INSTRUCTION_NUMBER: instructionNumber },
       data: { STATUS_CART: true },
     });

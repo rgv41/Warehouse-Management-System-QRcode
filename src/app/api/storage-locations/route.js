@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    const locations = await prisma.tBL_STORAGE_LOCATION.findMany({
+    const locations = await prisma.tBL_TS_STORAGE_LOCATION.findMany({
       where: { STATUS_ACTIVE: true },
       orderBy: { LOCATION_CODE: 'asc' },
     });

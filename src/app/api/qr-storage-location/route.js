@@ -16,7 +16,7 @@ export async function GET(request) {
   }
 
   try {
-    const location = await prisma.tBL_STORAGE_LOCATION.findUnique({
+    const location = await prisma.tBL_TS_STORAGE_LOCATION.findUnique({
       where: { LOCATION_CODE: locationCode },
     });
 

@@ -8,7 +8,7 @@ export async function POST(request) {
   try {
     const { qrCode, action, locationCode, instructionNumber, userAdd } = await request.json();
 
-    const qr = await prisma.tBL_QR_LABEL.findUnique({
+    const qr = await prisma.tBL_TS_QR_LABEL.findUnique({
       where: { QR_CODE: qrCode },
     });
 
@@ -24,7 +24,7 @@ export async function POST(request) {
         if (typeof locationCode !== 'string' || locationCode.length > 50) {
           return NextResponse.json({ error: 'Kode lokasi tidak valid atau terlalu panjang' }, { status: 400 });
         }
-        await prisma.tBL_PUTAWAY.create({
+        await prisma.tBL_TS_PUTAWAY.create({
           data: {
             QR_CODE: qrCode,
             LOCATION_CODE: locationCode,
@@ -35,7 +35,7 @@ export async function POST(request) {
 
       case 'PICKING':
         if (!instructionNumber) return NextResponse.json({ error: 'Instruction Number diperlukan' }, { status: 400 });
-        await prisma.tBL_PICKING.create({
+        await prisma.tBL_TS_PICKING.create({
           data: {
             INSTRUCTION_NUMBER: instructionNumber,
             QR_CODE: qrCode,

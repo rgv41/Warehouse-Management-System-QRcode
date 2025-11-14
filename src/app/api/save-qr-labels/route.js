@@ -26,7 +26,7 @@ export async function POST(request) {
     const dateStr = format(today, 'ddMMyyyy');
 
     // Ambil nomor urut terakhir hari ini untuk material ini
-    const latest = await prisma.tBL_QR_LABEL.findFirst({
+    const latest = await prisma.tBL_TS_QR_LABEL.findFirst({
       where: {
         QR_CODE: {
           startsWith: `${materialCode}_${dateStr}_`,
@@ -48,7 +48,7 @@ export async function POST(request) {
       const seq = String(nextSeq + i).padStart(4, '0');
       const qrCode = `${materialCode}_${dateStr}_${seq}`;
 
-      const created = await prisma.tBL_QR_LABEL.create({
+      const created = await prisma.tBL_TS_QR_LABEL.create({
          data :{
           QR_CODE: qrCode,
           MATERIALCODE: materialCode,

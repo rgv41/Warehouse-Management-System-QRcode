@@ -973,14 +973,6 @@ model SIT_TBL_LOG_OPR {
   UPDATED_AT  DateTime? @db.DateTime
 }
 
-model SIT_TBL_MAINMENU {
-  MAIN_MENU_ID   Int     @id(map: "PK_SIT_TBL_MAINMENU")
-  MAIN_MENU_NAME String? @db.VarChar(50)
-  MENU_CAPTION   String? @db.VarChar(50)
-  ICON           String? @db.VarChar(50)
-  HREF           String? @db.VarChar(50)
-}
-
 model SIT_TBL_MASTER_TARGET {
   ID              Int       @id(map: "PK_SIT_TBL_MASTER_TARGET") @default(autoincrement())
   BAGIAN          String?   @db.VarChar(10)
@@ -1013,12 +1005,11 @@ model SIT_TBL_MENU {
 }
 
 model SIT_TBL_MENUAKSES {
-  ACCESS_ID   Int  @id(map: "PK_SIT_TBL_MENUAKSES") @default(autoincrement())
-  USER_ID     Int?
-  MAINMENU_ID Int?
-  MENU_ID     Int?
-  SUBMENU_ID  Int?
-  ID_TP_MENU  Int?
+  ACCESS_ID  Int  @id(map: "PK_SIT_TBL_MENUAKSES") @default(autoincrement())
+  USER_ID    Int?
+  MENU_ID    Int?
+  SUBMENU_ID Int?
+  ID_TP_MENU Int?
 }
 
 model SIT_TBL_MST_PERTANYAAN {
@@ -1133,72 +1124,6 @@ model SIT_TBL_PERIZINAN {
   UPDATED_AT DateTime? @db.DateTime
 }
 
-model SIT_TBL_PETTYCASH_APPROVAL {
-  APPROVAL_ID   Int       @id(map: "PK_SIT_TBL_PETTYCASH_APPROVAL") @default(autoincrement())
-  REQUEST_ID    Int
-  APPROVER_ID   Int
-  ROLE          String    @db.VarChar(50)
-  APPROVAL_DATE DateTime? @db.DateTime
-  STATUS        String    @db.VarChar(50)
-  REMARKS       String?   @db.VarChar(255)
-}
-
-model SIT_TBL_PETTYCASH_BUDGET {
-  BUDGET_ID        Int       @id(map: "PK_SIT_TBL_PETTYCASH_BUDGET") @default(autoincrement())
-  DEPT_ID          Int
-  PERIOD_YEAR      Int
-  PERIOD_MONTH     Int
-  BUDGET_AMOUNT    Decimal   @db.Decimal(18, 2)
-  USED_AMOUNT      Decimal?  @db.Decimal(18, 2)
-  REMAINING_AMOUNT Decimal?  @db.Decimal(19, 2)
-  CREATED_AT       DateTime? @db.DateTime
-  UPDATED_AT       DateTime? @db.DateTime
-}
-
-model SIT_TBL_PETTYCASH_CATEGORY {
-  CATEGORY_ID   Int       @id(map: "PK_SIT_TBL_PETTYCASH_CATEGORY") @default(autoincrement())
-  CATEGORY_DESC String    @db.VarChar(200)
-  DEPT_ID       Int?
-  IS_ACTIVE     Boolean?
-  CREATED_AT    DateTime? @db.DateTime
-}
-
-model SIT_TBL_PETTYCASH_RELEASE {
-  RELEASE_ID   Int      @id(map: "PK_SIT_TBL_PETTYCASH_RELEASE") @default(autoincrement())
-  REQUEST_ID   Int
-  RELEASE_DATE DateTime @db.DateTime
-  FINANCE_ID   Int
-  AMOUNT       Decimal  @db.Decimal(18, 2)
-  REMARKS      String?  @db.VarChar(255)
-}
-
-model SIT_TBL_PETTYCASH_REQUEST {
-  REQUEST_ID           Int      @id(map: "PK_SIT_TBL_PETTYCASH_REQUEST") @default(autoincrement())
-  REQUEST_NO           String   @db.VarChar(20)
-  REQUEST_DATE         DateTime @db.DateTime
-  ORIGIN_DEPARTMENT_ID Int
-  TARGET_DEPARTMENT_ID Int
-  REQUESTOR_ID         Int
-  AMOUNT               Int
-  KEMBALI              Int?
-  DESCRIPTION          String?  @db.VarChar(255)
-  STATUS               String   @db.VarChar(50)
-  REQUEST_TYPE         String?  @db.VarChar(20)
-  CATEGORY_ID          Int?
-  IS_SETTLED           Boolean?
-}
-
-model SIT_TBL_PETTYCASH_SETTLEMENT {
-  SETTLEMENT_ID   Int       @id(map: "PK_SIT_TBL_PETTYCASH_SETTLEMENT") @default(autoincrement())
-  REQUEST_ID      Int
-  ACTUAL_AMOUNT   Int
-  REFUND_AMOUNT   Int
-  SETTLEMENT_DATE DateTime  @db.DateTime
-  REMARKS         String?   @db.NVarChar(255)
-  CREATED_AT      DateTime  @db.DateTime
-  UPDATED_AT      DateTime? @db.DateTime
-}
-
 model SIT_TBL_PROSES {
   ID_PROSES             Int              @id(map: "PK__SIT_TBL___9AC0D9F1972B1C9B") @default(autoincrement())
   COMP_CODE             String?          @db.VarChar(10)
@@ -1240,6 +1165,7 @@ model SIT_TBL_SKILL {
   COMP_CODE          String?        @db.VarChar(10)
   NIK                String         @db.VarChar(50)
   NAMA               String?        @db.VarChar(50)
+  TANOKOU            Boolean?
   ID_PROSES          Int
   ACTUAL_TIME_1      Int?
   ACTUAL_TIME_2      Int?
@@ -1256,9 +1182,6 @@ model SIT_TBL_SKILL {
   OUTPUT_ALLOWANCE_H Float?
   PERFORMANCE        Float?
   SMV                Float?
-  TANOKOU            Boolean?
-  KATEGORI           String?        @db.VarChar(10)
-  TIPE               String?        @db.VarChar(10)
   CREATED_AT         DateTime?      @db.Date
   UPDATED_AT         DateTime?      @db.Date
   SIT_TBL_PROSES     SIT_TBL_PROSES @relation(fields: [ID_PROSES], references: [ID_PROSES], onUpdate: NoAction, map: "FK__SIT_TBL_S__ID_PR__64CDBE05")
@@ -1523,7 +1446,6 @@ model TBL_ALERT_PROCESS {
   JML_HARI_PENGERJAAN Int?
   URUTAN              Int?
   PROFILE_PROSES      String? @db.VarChar(20)
-  STATUS              Int?
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -1962,6 +1884,7 @@ model TBL_BPB_LINE {
   DATE_DELETE        DateTime? @db.DateTime
   STATUS_DELETE      Boolean?  @default(false, map: "DF_TBL_BPB_LINE_STATUS_DELETE")
   AMOUNT_KONVERSI    Float?    @default(0, map: "DF_TBL_BPB_LINE_AMOUNT_KONVERSI")
+  IS_GENERATE_QR     Boolean?  @default(false, map: "DF_TBL_BPB_LINE_IS_GANERATE_QR")
 
   @@id([DOCUMENT_NUMBER, MATERIALCODE, ITEMPO, NO_BPB, ID], map: "PK_TBL_BPB_LINE")
 }
@@ -2183,6 +2106,8 @@ model TBL_CEISA_H2H_HEADER {
   ID                       Int                        @id(map: "PK__TBL_CEIS__3214EC2728D438E8") @default(autoincrement())
   VALIDASI                 Boolean?
   JENIS_DOKUMEN            String?                    @db.VarChar(255)
+  DOCUMENT_DATE            DateTime?                  @db.Date
+  NOMOR_BC                 Int?
   ASALDATA                 String?                    @db.NVarChar(255)
   USER_UPLOAD              String?                    @db.NVarChar(255)
   TGL_UPLOAD               DateTime?                  @db.DateTime
@@ -2547,6 +2472,7 @@ model TBL_FINISHGOODS {
   CREATE_DATE           DateTime?
   UPDATE_DATE           DateTime?
   ID_TERM_FG            Int?
+  FG_TBAM               String?                 @db.NVarChar(60)
   TBL_FINISHGOODS_MODEL TBL_FINISHGOODS_MODEL[]
 }
 
@@ -3202,7 +3128,7 @@ model TBL_INSTRUCTION_SHEET_SIZE {
   URUTAN                Float?    @default(0, map: "DF_TBL_INSTRUCTION_SHEET_SIZE_URUTAN")
   ID_INSTRUCTION_FABRIC String?   @default("0", map: "DF_TBL_INSTRUCTION_SHEET_SIZE_ID_INSTRUCTION_FABRIC") @db.VarChar(50)
   DESTINATION           String?   @default("", map: "DF_TBL_INSTRUCTION_SHEET_SIZE_DESTINATION") @db.VarChar(50)
-  QTY_ALLOWANCE         Float?    @default(0, map: "DF_TBL_INSTRUCTION_SHEET_SIZE_QTY_ALLOWANCE")
+  QTY_ALLOWANCE         Float?
 
   @@id([ID, INSTRUCTION_NUMBER, FABRIC_CODE, KATEGORI_SIZE, SIZE], map: "PK_TBL_INSTRUCTION_SHEET_SIZE")
 }
@@ -3255,7 +3181,6 @@ model TBL_INVOICE_HEADER {
   TOTAL_FREIGHT         Float?    @default(dbgenerated(), map: "DF__TBL_INVOI__TOTAL__75C33FDD") @db.Real
   KODE_VENDOR_FREIGHT   String?   @default("", map: "DF__TBL_INVOI__KODE___16651999") @db.VarChar(50)
   STATUS_JURNAL_FREIGHT Boolean?  @default(false, map: "DF_TBL_INVOICE_HEADER_STATUS_JURNAL_FREIGHT")
-  STATUS_DELETE         Boolean?
 
   @@id([NO_INVOICE, NO_CUSTOMER], map: "PK_TBL_INVOICE_HEADER")
 }
@@ -3589,6 +3514,7 @@ model TBL_MATERIAL {
   DESC_DETAIL       String?   @default("", map: "DF_TBL_MATERIAL_DESC_DETAIL") @db.Text
   CREATE_DATE       DateTime?
   UPDATE_DATE       DateTime?
+  TBAM_MATERIAL     String?   @db.NVarChar(50)
 }
 
 model TBL_MATERIAL_PRICE {
@@ -3769,6 +3695,8 @@ model TBL_PARAMETER_STD {
   STD_ORANG     Float?
   STD_OUTPUT    Float?
   STD_PARAMETER Float?
+  STD_EFF       Float? @default(0, map: "DF_TBL_PARAMETER_STD_STD_EFF")
+  STD_SMV       Float? @default(0, map: "DF_TBL_PARAMETER_STD_STD_SMV")
 
   @@ignore
 }
@@ -4280,33 +4208,39 @@ model TBL_SCH_DAILY_PROD {
 }
 
 model TBL_SCH_HASIL_PROD {
-  RECID_HASIL_PROD BigInt    @id(map: "PK_TBL_SCH_HASIL_PROD") @default(autoincrement())
-  RECID_HEADER     BigInt
-  TANGGAL          DateTime  @db.Date
-  NIK              String    @db.VarChar(20)
-  MATERIALCODE     String    @db.VarChar(18)
-  SIZE             String?   @db.VarChar(50)
-  TYPE_HASIL_PROD  Int       @db.TinyInt
-  QTY              Int
-  INSEAM           String?   @db.VarChar(50)
-  CACAT_ID         BigInt?
-  REMARK           String?   @db.VarChar(200)
-  JAM              Int?      @db.TinyInt
-  TANGGAL_PRODUKSI DateTime? @db.Date
-  DURASI_PERBAIKAN BigInt?
-  OT               Boolean?
-  JAM_ID           Int?
+  RECID_HASIL_PROD  BigInt    @id(map: "PK_TBL_SCH_HASIL_PROD") @default(autoincrement())
+  RECID_HEADER      BigInt
+  RECID_HEADER_ASAL BigInt?
+  TANGGAL           DateTime  @db.Date
+  NIK               String    @db.VarChar(20)
+  MATERIALCODE      String?   @db.VarChar(18)
+  SIZE              String?   @db.VarChar(50)
+  TYPE_HASIL_PROD   Int       @db.TinyInt
+  QTY               Int
+  INSEAM            String?   @db.VarChar(50)
+  CACAT_ID          BigInt?
+  REMARK            String?   @db.VarChar(200)
+  JAM               Int?      @db.TinyInt
+  TANGGAL_PRODUKSI  DateTime? @db.Date
+  DURASI_PERBAIKAN  BigInt?
+  OT                Boolean?
+  JAM_ID            Int?
+  CREATED_AT        DateTime? @db.DateTime
+  UPDATED_AT        DateTime? @db.DateTime
 }
 
 model TBL_SCH_HEADER_HASIL_HARIAN {
-  RECID_HEADER       BigInt   @id(map: "PK_TBL_SCH_HEADER_HASIL_HARIAN") @default(autoincrement())
-  PROSES_ID          Int      @db.TinyInt
-  TANGGAL            DateTime @db.Date
-  INSTRUCTION_NUMBER String   @db.VarChar(12)
+  RECID_HEADER       BigInt    @id(map: "PK_TBL_SCH_HEADER_HASIL_HARIAN") @default(autoincrement())
+  PROSES_ID          Int       @db.TinyInt
+  TANGGAL            DateTime  @db.Date
+  INSTRUCTION_NUMBER String    @db.VarChar(12)
   TARGET             Int
-  URUTAN             Int?     @db.TinyInt
+  URUTAN             Int?      @db.TinyInt
   OT                 Boolean?
   JAM_OT             Int?
+  STATUS_ORDER       String?   @db.VarChar(20)
+  CREATED_AT         DateTime? @db.DateTime
+  UPDATED_AT         DateTime? @db.DateTime
 }
 
 model TBL_SCH_JAM_KERJA {
@@ -4316,7 +4250,7 @@ model TBL_SCH_JAM_KERJA {
 }
 
 model TBL_SCH_PERBAIKAN_PROD {
-  RECID_PERBAIKAN  BigInt   @id(map: "PK_TBL_SCH_PERBAIKAN") @default(autoincrement())
+  RECID_PERBAIKAN  BigInt   @id(map: "PK_TBL_SCH_PERBAIKAN_PROD") @default(autoincrement())
   RECID_HEADER     BigInt
   RECID_HASIL_PROD BigInt
   QTY              Int
@@ -4553,14 +4487,6 @@ model TBL_TMP_BARCODE_PEI {
   @@ignore
 }
 
-model TBL_TMP_HSL_FG {
-  ID                 Int      @id(map: "PK_TBL_TMP_HSL_FG") @default(autoincrement())
-  INSTRUCTION_NUMBER String?  @db.VarChar(20)
-  STATUS_RE_UPLOAD   Boolean? @default(false, map: "DF_TBL_TMP_HSL_FG_STATUS_RE_UPLOAD")
-  OP_70              Boolean? @default(false, map: "DF_TBL_TMP_HSL_FG_OP_70")
-  OP_60              Boolean? @default(false, map: "DF_TBL_TMP_HSL_FG_OP_60")
-}
-
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model TBL_TRSC_MATDOC {
   ID      Int     @default(autoincrement())
@@ -4655,7 +4581,6 @@ model TBL_VENDOR {
   ASAL_BARANG      String?  @default("", map: "DF_TBL_VENDOR_ASAL_BARANG") @db.VarChar(50)
   SUBCONT_QUILTING Boolean? @default(false, map: "DF_TBL_VENDOR_SUBCONT_QUILTING")
   SUBCONT_CELUP    Boolean? @default(false, map: "DF_TBL_VENDOR_SUBCONT_CELUP")
-  SUBCONT_EMBOS    Boolean? @default(false, map: "DF_TBL_VENDOR_SUBCONT_EMBOS")
 
   @@id([NAMA_VENDOR, NO_VENDOR], map: "PK_TBL_SUPPLIER")
 }
@@ -4736,83 +4661,228 @@ model TEMPLATE {
   @@ignore
 }
 
-model TBL_GOODS_ISSUE {
-  ID                 Int       @id(map: "PK_TBL_GOODS_ISSUE") @default(autoincrement())
-  ISSUE_NO           String    @unique(map: "UQ_TBL_GOODS_ISSUE_NO") @db.NVarChar(50)
-  ISSUE_DATE         DateTime? @default(now(), map: "DF__TBL_GOODS__ISSUE__57149B8B") @db.DateTime
+model TBL_COPA_REPORT {
+  ID          Int       @id(map: "PK_ReportTable") @default(autoincrement())
+  LFMON       String?   @db.Char(100)
+  GJAHR       String?   @db.Char(100)
+  KURRF       String?   @db.NVarChar(100)
+  KUNRG       String?   @db.VarChar(200)
+  NKUNNR      String?   @db.VarChar(200)
+  NEKUNNR     String?   @db.VarChar(200)
+  AUBEL       String?   @db.VarChar(200)
+  AUPOS       String?   @db.VarChar(100)
+  AUFNR       String?   @db.VarChar(200)
+  VKORG       String?   @db.VarChar(100)
+  INCO1       String?   @db.VarChar(100)
+  MATNR       String?   @db.VarChar(1000)
+  ARKTX       String?   @db.VarChar(100)
+  GAMNG       String?   @db.NVarChar(100)
+  FKIMG       String?   @db.NVarChar(100)
+  VRKME       String?   @db.VarChar(100)
+  SMV_PLAN    String?   @db.NVarChar(100)
+  SMV_ACT     String?   @db.NVarChar(100)
+  EFF         String?   @db.NVarChar(100)
+  NETWR       String?   @db.NVarChar(100)
+  WAERK       String?   @db.Char(100)
+  ZLFB        String?   @db.NVarChar(100)
+  ZLAC        String?   @db.NVarChar(100)
+  ZLPC        String?   @db.NVarChar(100)
+  ZLTC        String?   @db.NVarChar(100)
+  ZLCP        String?   @db.NVarChar(100)
+  ZLMG        String?   @db.NVarChar(100)
+  ZLSC        String?   @db.NVarChar(100)
+  ZLAP        String?   @db.NVarChar(100)
+  ZLVD        String?   @db.NVarChar(100)
+  ZLCM        String?   @db.NVarChar(100)
+  ZTOT        String?   @db.NVarChar(100)
+  ZTFB        String?   @db.NVarChar(100)
+  ZTAC        String?   @db.NVarChar(100)
+  ZTPC        String?   @db.NVarChar(100)
+  ZTTC        String?   @db.NVarChar(100)
+  ZTCP        String?   @db.NVarChar(100)
+  ZTMG        String?   @db.NVarChar(100)
+  ZTSC        String?   @db.NVarChar(100)
+  ZTAP        String?   @db.NVarChar(100)
+  ZTVD        String?   @db.NVarChar(100)
+  ZTCM        String?   @db.NVarChar(100)
+  STPRS       String?   @db.NVarChar(100)
+  TSTPRS      String?   @db.NVarChar(100)
+  VERPR       String?   @db.NVarChar(100)
+  TOT_COGS    String?   @db.NVarChar(100)
+  FABPLANQTY  String?   @db.NVarChar(100)
+  FABACTQTY   String?   @db.NVarChar(100)
+  FABBB       String?   @db.NVarChar(100)
+  ACCCC       String?   @db.NVarChar(100)
+  PACK        String?   @db.NVarChar(100)
+  HGL00       String?   @db.NVarChar(100)
+  DLLLL       String?   @db.NVarChar(100)
+  FOHHH       String?   @db.NVarChar(100)
+  DLFOH       String?   @db.NVarChar(100)
+  MAKLOON     String?   @db.NVarChar(100)
+  SERV        String?   @db.NVarChar(100)
+  COGSADJ     String?   @db.NVarChar(100)
+  COGSMAN     String?   @db.NVarChar(100)
+  VEND        String?   @db.NVarChar(100)
+  COMM        String?   @db.NVarChar(100)
+  GROSSPROFIT String?   @db.NVarChar(100)
+  GPFABRIC    String?   @db.NVarChar(100)
+  GPACC       String?   @db.NVarChar(100)
+  GPPACK      String?   @db.NVarChar(100)
+  GPHANDL     String?   @db.NVarChar(100)
+  GPCM        String?   @db.NVarChar(100)
+  GPSUBCONT   String?   @db.NVarChar(100)
+  GPSERVICE   String?   @db.NVarChar(100)
+  GPADJUST    String?   @db.NVarChar(100)
+  GPCOGSMAN   String?   @db.NVarChar(100)
+  GPVENDING   String?   @db.NVarChar(100)
+  GPCOMM      String?   @db.NVarChar(100)
+  GPOPERATING String?   @db.NVarChar(100)
+  GPPERSEN    String?   @db.NVarChar(100)
+  GPPERSEN2   String?   @db.NVarChar(100)
+  OPPERSEN    String?   @db.NVarChar(100)
+  NETWR3      String?   @db.NVarChar(100)
+  ACTBILL3    String?   @db.NVarChar(100)
+  NETWR4      String?   @db.NVarChar(100)
+  ACTBILL4    String?   @db.NVarChar(100)
+  USERNAME    String?   @db.NVarChar(100)
+  CREATED_AT  DateTime?
+}
+
+model TBL_SCH_HASIL_PROD_NEW {
+  RECID_HASIL_PROD BigInt    @id(map: "PK_TBL_SCH_HASIL_PROD_NEW") @default(autoincrement())
+  RECID_HEADER     BigInt
+  TANGGAL          DateTime  @db.Date
+  NIK              String    @db.VarChar(20)
+  MATERIALCODE     String?   @db.VarChar(18)
+  SIZE             String?   @db.VarChar(50)
+  TYPE_HASIL_PROD  Int       @db.TinyInt
+  QTY              Int
+  INSEAM           String?   @db.VarChar(50)
+  CACAT_ID         BigInt?
+  REMARK           String?   @db.VarChar(255)
+  JAM              Int?      @db.TinyInt
+  TANGGAL_PRODUKSI DateTime? @db.Date
+  DURASI_PERBAIKAN BigInt?
+  OT               Boolean?
+  JAM_ID           Int?
+  CREATED_AT       DateTime? @db.DateTime
+  UPDATED_AT       DateTime? @db.DateTime
+}
+
+model TBL_SCH_HEADER_HASIL_HARIAN_NEW {
+  RECID_HEADER       BigInt    @id(map: "PK_TBL_SCH_HEADER_HASIL_HARIAN_NEW") @default(autoincrement())
+  INSTRUCTION_NUMBER String    @db.VarChar(50)
+  PROSES_ID          Int
+  TARGET             Int
+  URUTAN             Int?
+  OT                 Boolean?
+  JAM_OT             Int?
+  STATUS_ORDER       String?   @db.VarChar(20)
+  CREATED_AT         DateTime? @db.DateTime
+  UPDATED_AT         DateTime? @db.DateTime
+  TANGGAL            DateTime? @db.Date
+}
+
+model TBL_STOCK_QRCODE {
+  ID              Int       @id(map: "PK_TBL_STOCK_QRCODE") @default(autoincrement()) @db.TinyInt
+  CQRCODE         String?   @db.Text
+  LOKASI          String?   @db.NVarChar(50)
+  BATCH           String?   @db.NVarChar(50)
+  IS_PRINT        Boolean?  @default(false, map: "DF_TBL_STOCK_QRCODE_IS_PRINT")
+  CREATED_AT      DateTime?
+  UPDATED_AT      DateTime?
+  USER_CREATE     String?   @db.NChar(50)
+  USER_UPDATE     String?   @db.NChar(50)
+  QTY_AKHIR       Float?
+  TANGGAL_POSTING DateTime? @db.Date
+  NO_PABEAN       String?   @db.NVarChar(10)
+}
+
+model TBL_TRANS_STOCK_QRCODE {
+  ID        Int       @id(map: "PK__TBL_TRAN__3214EC27AA394CC0") @default(autoincrement()) @db.TinyInt
+  QRCODE    String?   @db.Text
+  QTY_PAKAI Float?
+  TGL_PAKAI DateTime?
+  USER      String?   @db.NChar(10)
+}
+
+model TBL_TS_GOODS_ISSUE {
+  ID                 Int       @id(map: "PK_TBL_TS_GOODS_ISSUE") @default(autoincrement())
+  ISSUE_NO           String    @db.NVarChar(50)
+  ISSUE_DATE         DateTime? @default(now(), map: "DF__TBL_TS_GO__ISSUE__56207752") @db.DateTime
   INSTRUCTION_NUMBER String?   @db.NVarChar(50)
   USER_ADD           String?   @db.NVarChar(50)
   DESTINATION        String?   @db.NVarChar(100)
   REMARK             String?   @db.NVarChar(200)
 }
 
-model TBL_PICKING {
-  ID                 Int          @id(map: "PK_TBL_PICKING") @default(autoincrement())
-  INSTRUCTION_NUMBER String       @db.NVarChar(50)
-  QR_CODE            String       @db.NVarChar(100)
-  MATERIALCODE       String       @db.NVarChar(50)
-  QTY                Decimal?     @db.Decimal(18, 2)
-  UNIT               String?      @db.NVarChar(20)
-  DATE_PICK          DateTime?    @default(now(), map: "DF__TBL_PICKI__DATE___515BC235") @db.DateTime
-  USER_ADD           String?      @db.NVarChar(50)
-  STATUS_CART        Boolean?     @default(false, map: "DF__TBL_PICKI__STATU__524FE66E")
-  TBL_QR_LABEL       TBL_QR_LABEL @relation(fields: [QR_CODE], references: [QR_CODE], onUpdate: NoAction, map: "FK_PICKING_QR")
+model TBL_TS_PICKING {
+  ID                 Int             @id(map: "PK_TBL_TS_PICKING") @default(autoincrement())
+  INSTRUCTION_NUMBER String          @db.NVarChar(50)
+  QR_CODE            String          @db.NVarChar(100)
+  MATERIALCODE       String          @db.NVarChar(50)
+  QTY                Decimal?        @db.Decimal(18, 2)
+  UNIT               String?         @db.NVarChar(20)
+  DATE_PICK          DateTime?       @default(now(), map: "DF__TBL_TS_PI__DATE___5DC1991A") @db.DateTime
+  USER_ADD           String?         @db.NVarChar(50)
+  STATUS_CART        Boolean?        @default(false, map: "DF__TBL_TS_PI__STATU__5EB5BD53")
+  TBL_TS_QR_LABEL    TBL_TS_QR_LABEL @relation(fields: [QR_CODE], references: [QR_CODE], onUpdate: NoAction, map: "FK_PICKING_QR")
 }
 
-model TBL_PUTAWAY {
-  ID                   Int                  @id(map: "PK_TBL_PUTAWAY") @default(autoincrement())
-  QR_CODE              String               @db.NVarChar(100)
-  LOCATION_CODE        String               @db.NVarChar(50)
-  PUTAWAY_DATE         DateTime?            @default(now(), map: "DF__TBL_PUTAW__PUTAW__4C970D18") @db.DateTime
-  USER_ADD             String?              @db.NVarChar(50)
-  TBL_STORAGE_LOCATION TBL_STORAGE_LOCATION @relation(fields: [LOCATION_CODE], references: [LOCATION_CODE], onUpdate: NoAction, map: "FK_PUTAWAY_LOC")
-  TBL_QR_LABEL         TBL_QR_LABEL         @relation(fields: [QR_CODE], references: [QR_CODE], onUpdate: NoAction, map: "FK_PUTAWAY_QR")
+model TBL_TS_PUTAWAY {
+  ID                      Int                     @id(map: "PK_TBL_TS_PUTAWAY") @default(autoincrement())
+  QR_CODE                 String                  @db.NVarChar(100)
+  LOCATION_CODE           String                  @db.NVarChar(50)
+  PUTAWAY_DATE            DateTime?               @default(now(), map: "DF__TBL_TS_PU__PUTAW__62864E37") @db.DateTime
+  USER_ADD                String?                 @db.NVarChar(50)
+  TBL_TS_STORAGE_LOCATION TBL_TS_STORAGE_LOCATION @relation(fields: [LOCATION_CODE], references: [LOCATION_CODE], onUpdate: NoAction, map: "FK_PUTAWAY_LOC")
+  TBL_TS_QR_LABEL         TBL_TS_QR_LABEL         @relation(fields: [QR_CODE], references: [QR_CODE], onUpdate: NoAction, map: "FK_PUTAWAY_QR")
 }
 
-model TBL_QR_LABEL {
-  ID              Int           @id(map: "PK_TBL_QR_LABEL") @default(autoincrement())
-  QR_CODE         String        @unique(map: "UQ_TBL_QR_LABEL_QR_CODE") @db.NVarChar(100)
-  MATERIALCODE    String        @db.NVarChar(50)
-  NO_BPB          String        @db.NVarChar(50)
-  DOCUMENT_NUMBER String?       @db.NVarChar(50)
-  DESCRIPTION     String?       @db.NVarChar(200)
-  QTY             Decimal       @db.Decimal(18, 2)
-  UNIT            String?       @db.NVarChar(20)
-  STATUS_USED     Boolean?      @default(false, map: "DF__TBL_QR_LA__STATU__44F5EB50")
-  CREATE_DATE     DateTime?     @default(now(), map: "DF__TBL_QR_LA__CREAT__45EA0F89") @db.DateTime
-  USER_ADD        String?       @db.NVarChar(50)
-  TBL_PICKING     TBL_PICKING[]
-  TBL_PUTAWAY     TBL_PUTAWAY[]
+model TBL_TS_QR_LABEL {
+  ID              Int              @id(map: "PK_TBL_TS_QR_LABEL") @default(autoincrement())
+  QR_CODE         String           @unique(map: "UQ__TBL_TS_Q__10CDA30B988B69C7") @db.NVarChar(100)
+  MATERIALCODE    String           @db.NVarChar(50)
+  NO_BPB          String           @db.NVarChar(50)
+  DOCUMENT_NUMBER String?          @db.NVarChar(50)
+  DESCRIPTION     String?          @db.NVarChar(200)
+  QTY             Decimal          @db.Decimal(18, 2)
+  UNIT            String?          @db.NVarChar(20)
+  STATUS_USED     Boolean?         @default(false, map: "DF__TBL_TS_QR__STATU__4E7F558A")
+  CREATE_DATE     DateTime?        @default(now(), map: "DF__TBL_TS_QR__CREAT__4F7379C3") @db.DateTime
+  USER_ADD        String?          @db.NVarChar(50)
+  TBL_TS_PICKING  TBL_TS_PICKING[]
+  TBL_TS_PUTAWAY  TBL_TS_PUTAWAY[]
 }
 
-model TBL_REQUEST_DETAIL {
-  ID                   Int                  @id(map: "PK_TBL_REQUEST_DETAIL") @default(autoincrement())
-  REQUEST_NO           String               @db.NVarChar(50)
-  MATERIALCODE         String               @db.NVarChar(50)
-  DESCRIPTION          String?              @db.NVarChar(200)
-  QTY_REQUEST          Decimal?             @db.Decimal(18, 2)
-  UNIT                 String?              @db.NVarChar(20)
-  TBL_REQUEST_PRODUKSI TBL_REQUEST_PRODUKSI @relation(fields: [REQUEST_NO], references: [REQUEST_NO], onUpdate: NoAction, map: "FK_REQUEST_DETAIL_HEADER")
+model TBL_TS_REQUEST_DETAIL {
+  ID                      Int                     @id(map: "PK_TBL_TS_REQUEST_DETAIL") @default(autoincrement())
+  REQUEST_NO              String                  @db.NVarChar(50)
+  MATERIALCODE            String                  @db.NVarChar(50)
+  DESCRIPTION             String?                 @db.NVarChar(200)
+  QTY_REQUEST             Decimal?                @db.Decimal(18, 2)
+  UNIT                    String?                 @db.NVarChar(20)
+  TBL_TS_REQUEST_PRODUKSI TBL_TS_REQUEST_PRODUKSI @relation(fields: [REQUEST_NO], references: [REQUEST_NO], onUpdate: NoAction, map: "FK_REQUEST_DETAIL_HEADER")
 }
 
-model TBL_REQUEST_PRODUKSI {
-  ID                 Int                  @id(map: "PK_TBL_REQUEST_PRODUKSI") @default(autoincrement())
-  REQUEST_NO         String               @unique(map: "UQ_TBL_REQUEST_NO") @db.NVarChar(50)
-  REQUEST_DATE       DateTime?            @default(now(), map: "DF__TBL_REQUE__REQUE__5AE52C6F") @db.DateTime
-  DEPARTMENT         String?              @db.NVarChar(100)
-  INSTRUCTION_NUMBER String?              @db.NVarChar(50)
-  USER_REQUEST       String?              @db.NVarChar(50)
-  STATUS             String?              @default("Pending", map: "DF__TBL_REQUE__STATU__5BD950A8") @db.NVarChar(20)
-  TBL_REQUEST_DETAIL TBL_REQUEST_DETAIL[]
+model TBL_TS_REQUEST_PRODUKSI {
+  ID                    Int                     @id(map: "PK_TBL_TS_REQUEST_PRODUKSI") @default(autoincrement())
+  REQUEST_NO            String                  @unique(map: "UQ__TBL_TS_R__71D28296613F347F") @db.NVarChar(50)
+  REQUEST_DATE          DateTime?               @default(now(), map: "DF__TBL_TS_RE__REQUE__59F10836") @db.DateTime
+  DEPARTMENT            String?                 @db.NVarChar(100)
+  INSTRUCTION_NUMBER    String?                 @db.NVarChar(50)
+  USER_REQUEST          String?                 @db.NVarChar(50)
+  STATUS                String?                 @default("Pending", map: "DF__TBL_TS_RE__STATU__5AE52C6F") @db.NVarChar(20)
+  TBL_TS_REQUEST_DETAIL TBL_TS_REQUEST_DETAIL[]
 }
 
-model TBL_STORAGE_LOCATION {
-  ID            Int           @id(map: "PK_TBL_STORAGE_LOCATION") @default(autoincrement())
-  LOCATION_CODE String        @unique(map: "UQ_TBL_STORAGE_LOCATION_CODE") @db.NVarChar(50)
-  LOCATION_NAME String?       @db.NVarChar(100)
-  RACK          String?       @db.NVarChar(50)
-  ROW_NO        String?       @db.NVarChar(20)
-  COLUMN_NO     String?       @db.NVarChar(20)
-  STATUS_ACTIVE Boolean?      @default(true, map: "DF__TBL_STORA__STATU__49BAA06D")
-  TBL_PUTAWAY   TBL_PUTAWAY[]
+model TBL_TS_STORAGE_LOCATION {
+  ID             Int              @id(map: "PK_TBL_TS_STORAGE_LOCATION") @default(autoincrement())
+  LOCATION_CODE  String           @unique(map: "UQ__TBL_TS_S__E88895922A98DBF8") @db.NVarChar(50)
+  LOCATION_NAME  String?          @db.NVarChar(100)
+  RACK           String?          @db.NVarChar(50)
+  ROW_NO         String?          @db.NVarChar(20)
+  COLUMN_NO      String?          @db.NVarChar(20)
+  STATUS_ACTIVE  Boolean?         @default(true, map: "DF__TBL_TS_ST__STATU__53440AA7")
+  TBL_TS_PUTAWAY TBL_TS_PUTAWAY[]
 }
